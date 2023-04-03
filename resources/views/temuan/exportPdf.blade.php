@@ -50,7 +50,7 @@
                     </div>
                     <div style="margin-bottom: 5px">
                         <div class="bold" style="margin-bottom: 5px">3. Sebab:</div>
-                        <div>{{ $item->sebab }}</div>
+                        <div style="padding-left: 17px">{{ $item->sebab }}</div>
                     </div>
                     <div style="margin-bottom: 5px">
                         <div class="bold" style="margin-bottom: 5px">4. Akibat:</div>
