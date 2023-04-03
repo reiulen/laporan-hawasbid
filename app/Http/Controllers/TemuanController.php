@@ -158,7 +158,7 @@ class TemuanController extends Controller
         $detail = $data->detail ?? [];
         // return view('temuan.exportPdf', compact('data', 'detail'));
 
-        $cetak = 'Laporan Task ('.date('d F Y').')';
+        $cetak = 'Lembar Temuan Hakim Pengawas Bidang Pengadilan Agama Cirebon ('.date('d F Y').')';
 
         $pdf = PDF::loadview('temuan.exportPdf', compact('data', 'detail'))
                     ->setPaper('A4', 'portrait');

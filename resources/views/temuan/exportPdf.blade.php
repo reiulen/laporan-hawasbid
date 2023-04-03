@@ -33,9 +33,9 @@
                 <p><i>SK Ketua Pengadilan Agama Cirebon Nomor W10-A16/{{ $item->nomor_1 }}/PS.00/{{ $item->nomor_2 }}/{{ $item->nomor_3 }}</i></p>
                 <p>Pelaksanaan Tanggal {{ dateMonthIndo($item->tanggal_pelaksanaan_dari) }} S.d {{ dateMonthIndo($item->tanggal_pelaksanaan_sampai) }}</p>
             </div>
-            <ol class="font-size-14" style="list-style-type: upper-alpha; margin-top: 50px; display: flex; justify-content: center">
-                <li>
-                    <div class="bold" style="margin-bottom: 5px">Bidang Manajemen Peradilan</div>
+            <div class="font-size-14" style="list-style-type: upper-alpha; margin-top: 50px; display: flex; justify-content: center">
+                <div>
+                    <div class="bold" style="margin-bottom: 5px">{{ $data->pengawas_bidang }}</div>
                     <div style="margin-bottom: 5px">Pejabat Penanggung Jawab Tindak Lanjut : {{ ($data->penanggung_jawab_tindak_lanjut_tipe ? 'Panitera' : 'Sekertaris') . ' - ' . $data->penanggung_jawab_tindak_lanjut }}</div>
                     <div style="margin-bottom: 5px">
                         <div class="bold" style="margin-bottom: 5px">Kondisi:</div>
@@ -63,10 +63,12 @@
                             <img src="{{ asset($item->foto_eviden) }}" style="height: 250px" />
                         </div>
                     </div>
-                </li>
-            </ol>
+                </div>
+            </div>
         </div>
+        @if ($detail->last()->id == $item->id)
         <div class="page_break"></div>
+        @endif
         @endforeach
     </body>
 </html>
