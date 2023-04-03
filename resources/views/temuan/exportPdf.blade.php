@@ -18,6 +18,9 @@
                 font-size: 14px;
             }
 
+            .line-height {
+                line-height: 1.5;
+            }
             .text-center {
                 text-align: center;
             }
@@ -34,28 +37,28 @@
                 <p>Pelaksanaan Tanggal {{ dateMonthIndo($item->tanggal_pelaksanaan_dari) }} S.d {{ dateMonthIndo($item->tanggal_pelaksanaan_sampai) }}</p>
             </div>
             <div class="font-size-14" style="list-style-type: upper-alpha; margin-top: 50px; display: flex; justify-content: center">
-                <div>
-                    <div class="bold" style="margin-bottom: 5px">{{ $data->pengawas_bidang }}</div>
+                <div class="bold" style="margin-bottom: 5px">{{ explode('.', $data->pengawas_bidang)[0] ?? '' }}. <span style="padding-left: 5px">{{ explode('.', $data->pengawas_bidang)[1] ?? '' }}</span></div>
+                <div style="padding-left: 30px" class="line-height">
                     <div style="margin-bottom: 5px">Pejabat Penanggung Jawab Tindak Lanjut : {{ ($data->penanggung_jawab_tindak_lanjut_tipe ? 'Panitera' : 'Sekertaris') . ' - ' . $data->penanggung_jawab_tindak_lanjut }}</div>
                     <div style="margin-bottom: 5px">
-                        <div class="bold" style="margin-bottom: 5px">Kondisi:</div>
-                        <div>{{ $item->kondisi }}</div>
+                        <div class="bold" style="margin-bottom: 5px">1. Kondisi:</div>
+                        <div style="padding-left: 17px">{{ $item->kondisi }}</div>
                     </div>
                     <div style="margin-bottom: 5px">
-                        <div class="bold" style="margin-bottom: 5px">Kriteria:</div>
-                        <div>{{ $item->kriteria }}</div>
+                        <div class="bold" style="margin-bottom: 5px">2. Kriteria:</div>
+                        <div style="padding-left: 17px">{{ $item->kriteria }}</div>
                     </div>
                     <div style="margin-bottom: 5px">
-                        <div class="bold" style="margin-bottom: 5px">Sebab:</div>
+                        <div class="bold" style="margin-bottom: 5px">3. Sebab:</div>
                         <div>{{ $item->sebab }}</div>
                     </div>
                     <div style="margin-bottom: 5px">
-                        <div class="bold" style="margin-bottom: 5px">Akibat:</div>
-                        <div>{{ $item->akibat }}</div>
+                        <div class="bold" style="margin-bottom: 5px">4. Akibat:</div>
+                        <div style="padding-left: 17px">{{ $item->akibat }}</div>
                     </div>
                     <div style="margin-bottom: 5px">
-                        <div class="bold" style="margin-bottom: 5px">Rekomendasi:</div>
-                        <div>{{ $item->rekomendasi }}</div>
+                        <div class="bold" style="margin-bottom: 5px">5. Rekomendasi:</div>
+                        <div style="padding-left: 17px">{{ $item->rekomendasi }}</div>
                     </div>
                     <div style="margin-top: 20px">
                         <div class="bold" >TAMPILAN HASIL CETAK EVIDEN</div>
@@ -66,7 +69,7 @@
                 </div>
             </div>
         </div>
-        @if ($detail->last()->id == $item->id)
+        @if (!$detail->last()->id == $item->id)
         <div class="page_break"></div>
         @endif
         @endforeach
