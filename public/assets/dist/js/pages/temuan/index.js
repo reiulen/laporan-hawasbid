@@ -255,9 +255,12 @@ $(function() {
             }
 
             return $(`
-                <div style="display: flex; align-items: center; gap: 5px;">
-                    <img class="img-selected" src="${state.profile_photo_url}" style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%">
-                    <span>${state.name}</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <img class="img-selected" src="${state.profile_photo_url}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%">
+                    <div>
+                        <div>${state.name}</div>
+                        <div>${state.email}</div>
+                    </div>
                 </div>
             `);
         };
@@ -270,7 +273,10 @@ $(function() {
             return $(`
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <img src="${state.profile_photo_url}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%">
-                    <span>${state.name}</span>
+                    <div>
+                        <div>${state.name}</div>
+                        <div>${state.email}</div>
+                    </div>
                 </div>
             `);
         };

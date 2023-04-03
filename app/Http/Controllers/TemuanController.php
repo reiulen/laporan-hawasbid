@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use App\Models\User;
 use App\Models\Temuan;
 use Illuminate\Http\Request;
@@ -84,10 +85,10 @@ class TemuanController extends Controller
                             ->addindexColumn()
                             ->addColumn('cetak', function($data) {
                                 $cetak = "<div class='d-flex align-items-center' style='gap: 10px'>
-                                            <a href='$data->id'>
+                                            <a href='".route('temuan.exportPDF',$data->id)."' target='_blank'>
                                                 <img src='".asset('assets/images/docx.png')."' style='height: 35px' />
                                             </a>
-                                            <a href='$data->id'>
+                                            <a href='".route('temuan.exportPDF',$data->id)."' target='_blank'>
                                                 <img src='".asset('assets/images/pdf.png')."' style='height: 35px' />
                                             </a>
                                          </div>";
@@ -150,4 +151,17 @@ class TemuanController extends Controller
         ]);
     }
 
+
+    public function exportPDF($id)
+    {
+        $data = Temuan::with('detail')->findOrFail($id);
+        $detail = $data->detail ?? [];
+        // return view('temuan.exportPdf', compact('data', 'detail'));
+
+        $cetak = 'Laporan Task ('.date('d F Y').')';
+
+        $pdf = PDF::loadview('temuan.exportPdf', compact('data', 'detail'))
+                    ->setPaper('A4', 'portrait');
+        return $pdf->stream($cetak);
+    }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 
 if (!function_exists('set_active')) {
     function set_active($url, $output = 'active')
@@ -140,3 +142,10 @@ if(!function_exists('triwulan')){
     }
 }
 
+
+if(!function_exists('dateMonthIndo')) {
+    function dateMonthIndo($date)
+    {
+        return Carbon::parse($date)->format('d F Y');
+    }
+}

@@ -42,6 +42,7 @@ Route::middleware([
         Route::get('/create', [TemuanController::class, 'create'])->name('create');
         Route::post('/store', [TemuanController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [TemuanController::class, 'edit'])->name('edit');
+        Route::get('/{id}/export-pdf', [TemuanController::class, 'exportPDF'])->name('exportPDF');
         Route::put('/{id}/update', [TemuanController::class, 'update'])->name('update');
         Route::get('/{id}/lembar-temuan', [LembarTemuanController::class, 'create'])->name('lembar-temuan.create');
         Route::put('/{id}/lembar-temuan/update', [LembarTemuanController::class, 'updateTemuan'])->name('lembar-temuan.update');

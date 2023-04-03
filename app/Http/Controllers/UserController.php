@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function list(Request $request)
     {
-        $user = User::select('id', 'name', 'profile_photo_path as image')
+        $user = User::select('id', 'name', 'profile_photo_path as image', 'email')
                             ->where('name', 'like', '%'.$request->keyword.'%')
                             ->get();
         return $user->toJson();
