@@ -59,7 +59,7 @@
                     </div>
                     <div style="margin-top: 20px">
                         <div class="bold" >TAMPILAN HASIL CETAK EVIDEN</div>
-                        <div>
+                        <div style="margin-top: 8px">
                             <img src="{{ asset($item->foto_eviden) }}" style="height: 250px" />
                         </div>
                     </div>
