@@ -28,6 +28,7 @@
             <div class="card-header text-center">
                 <p class="text-center">
                     <a href="" class="text-dark">
+                        <img style="height: 80px" src="{{ asset('assets/images/logo-pa.png') }}" />
                         <h5>APLIKASI LAPORAN HAWASBID PENGADILAN AGAMA CIREBON</h5>
                     </a>
                 </p>

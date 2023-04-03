@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Temuan;
 use Illuminate\Http\Request;
+use App\Events\SendEmailTemuan;
+use App\Jobs\SendMailTemuan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Console\Scheduling\Event;
 use Yajra\DataTables\Facades\DataTables;
 
 class TemuanController extends Controller
@@ -90,6 +94,12 @@ class TemuanController extends Controller
                                 return $cetak;
                             })->addColumn('action', function($data) {
                                 $action = "<div class='d-flex align-items-center' style='gap: 10px'>
+                                            <div>
+                                                <div class='btn btn-success btn-sm text-nowrap send-email' role='button' data-id='$data->id'>
+                                                    <i class='fas fa-envelope'></i>
+                                                    Kirim Email
+                                                </div>
+                                            </div>
                                             <a class='btn btn-primary btn-sm' href='".route('temuan.edit', $data->id)."'>
                                                 <i class='fas fa-pencil-alt'></i>
                                             </a>
@@ -111,6 +121,33 @@ class TemuanController extends Controller
                            ->smart(true)
                            ->make(true);
 
+    }
+
+    public function sendEmail(Request $request, $id)
+    {
+        $data = Temuan::findOrFail($id);
+        if(!$data)
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data tidak ditemukan'
+            ]);
+
+        if(count($request->user_send) < 1)
+            return response()->json([
+                'status' => false,
+                'message' => 'Pilih user yang akan dikirim email'
+            ]);
+
+        $user = User::whereIn('id', $request->user_send)->get();
+        if(count($user) > 0) {
+            $job = new SendMailTemuan($user);
+            $this->dispatch($job);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Email berhasil dikirim dan sedang dalam antrian'
+        ]);
     }
 
 }

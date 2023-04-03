@@ -3,7 +3,7 @@ $(".logout").click(function () {
     const nama = $(this).data("nama");
     Swal.fire({
         title: "Apakah yakin?",
-        text: `Anda akan keluar dari Sistem Sistem Informasi Prodi`,
+        text: `Anda akan keluar dari Aplikasi Laporan HAWASBID PENGADILAN AGAMA CIREBON`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#6492b8da",

@@ -14,6 +14,15 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function list(Request $request)
+    {
+        $user = User::select('id', 'name', 'profile_photo_path as image')
+                            ->where('name', 'like', '%'.$request->keyword.'%')
+                            ->get();
+        return $user->toJson();
+    }
+
+
     public function index()
     {
         $data = User::where('id', '!=', Auth::user()->id)

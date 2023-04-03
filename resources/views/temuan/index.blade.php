@@ -98,10 +98,46 @@
         <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+    <div class="modal fade" id="modalSendEmail" tabindex="-1" aria-labelledby="modalSendEmailLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalSendEmailLabel">Kirim Email</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form id="formSendEmail">
+                <input type="hidden" name="id" />
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Kirim Email Temuan Ini Ke :</label>
+                        <select name="user_send" id="selectUser" multiple>
+                            <option value="">Pilih Pengguna</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        <i class="fas fa-times"></i>
+                        Batal
+                    </button>
+                    <button class="btn btn-primary">
+                        Kirim Email
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </form>
+          </div>
+        </div>
+    </div>
 
 
     @include('lib.datatable')
     @push('script')
+    <script>
+        const urlUserList = "{{ route('user.list') }}";
+    </script>
     <script src="{{ asset('assets/dist/js/pages/temuan/index.js') }}"></script>
     @endpush
 </x-app-layout>

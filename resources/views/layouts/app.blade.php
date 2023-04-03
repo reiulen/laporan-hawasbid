@@ -27,8 +27,8 @@
     <div class="wrapper">
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-          <img class="animation__shake" src="{{ asset('assets/images/logo.png') }}" alt="Logo SIP"
-                height="60"
+          <img class="animation__shake" src="{{ asset('assets/images/logo-user.png') }}" alt="Logo SIP"
+                height="100"
                 style="object-fit: cover" />
         </div>
         <x-navbar></x-navbar>
@@ -46,13 +46,13 @@
     </div>
     <!-- ./wrapper -->
 
-    @include('lib.select2')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.0/axios.min.js"
 		integrity="sha512-yt+yearry6Evoodvr9oWzfGBYcXRyXAbJNZRyD7bHUHs39vj82vnRv1zCqzdh+bShT+c9IQ4T+uX3CmLofd4ig=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- jQuery -->
     <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
+    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script>
       const url = '{{ url('') }}';
@@ -62,7 +62,6 @@
 
     <!-- SweetAlert2 -->
     <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('assets/dist/js/adminlte.js') }}"></script>
     <script src="{{ asset('assets/dist/js/pages/global.js') }}"></script>

@@ -44,14 +44,12 @@ const table = $("#example1").DataTable({
             input.each(function() {
                 let name = $(this).attr('name');
                 let value = $(this).val();
-                console.log(name);
                 if (value != '')
                     d[name] = value;
             });
             select.each(function() {
                 let name = $(this).attr('name');
                 let value = $(this).val();
-                console.log(name);
                 if (value != '')
                     d[name] = value;
             });
@@ -112,6 +110,58 @@ const table = $("#example1").DataTable({
         },
 
     ],
+});
+
+$('#modalSendEmail #formSendEmail').on('submit', async function(e) {
+    e.preventDefault();
+    const form = $(this);
+    const id = form.find('[name="id"]').val();
+    const useSendEmail = form.find('[name="user_send"]').val();
+    const buttonSubmit = $('#submitBtn');
+    buttonSubmit.attr('disabled', true);
+    buttonSubmit.html('Loading...');
+    const data = {
+        user_send : useSendEmail
+    }
+    Swal.fire({
+        title: 'Kirim Email',
+        text: "Apakah anda yakin ingin mengirim email?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Kirim!'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            const res = await sendData(`${url}/admin/temuan/send-email/${id}`, 'POST', data);
+            if (res.status) {
+               $('#modalSendEmail').modal('hide');
+                Swal.fire(
+                    'Berhasil!',
+                    res.message,
+                    'success'
+                );
+             } else
+                Swal.fire(
+                    'Gagal!',
+                    res.message,
+                    'error'
+                );
+
+        }
+    });
+});
+
+$('#modalSendEmail').on('hidden.bs.modal', function() {
+    $(this).find('[name="id"]').val('');
+    $(this).find('[name="user_send"]').val('');
+    $(this).find('[name="user_send"]').trigger('change');
+});
+
+table.on('click', '.send-email', function() {
+    let id = $(this).data('id');
+    $('#modalSendEmail #formSendEmail').find('[name="id"]').val(id);
+    $('#modalSendEmail').modal('show');
 });
 
 $('input').on('keyup', function() {
@@ -196,4 +246,58 @@ $(function() {
             submitBtn.attr('disabled', false);
         }
     }
+
+    $(function() {
+        function formatState (state) {
+            var state = state;
+            if (!state.id) {
+                return state.name;
+            }
+
+            return $(`
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <img class="img-selected" src="${state.profile_photo_url}" style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%">
+                    <span>${state.name}</span>
+                </div>
+            `);
+        };
+
+        function formatList (state) {
+            if (!state.id) {
+                return state.name;
+            }
+
+            return $(`
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <img src="${state.profile_photo_url}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%">
+                    <span>${state.name}</span>
+                </div>
+            `);
+        };
+
+        $('#selectUser').select2({
+            templateResult: formatList,
+            templateSelection: formatState,
+            minimumInputLength: 2,
+            dropDownParent: $('#modalSendEmail'),
+            placeholder: 'Pilih Pengguna',
+            ajax: {
+                url: urlUserList,
+                dataType: 'json',
+                delay: 250,
+                data: function (data) {
+                    return {
+                        keyword: data.term
+                    };
+                },
+                processResults: function (response) {
+                    return {
+                        results:response
+                    };
+                },
+                cache: true
+            }
+        });
+
+    });
 })

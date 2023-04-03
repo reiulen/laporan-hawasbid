@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\LembarTemuanController;
-use App\Http\Controllers\TemuanController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TemuanController;
+use App\Http\Controllers\LembarTemuanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +21,7 @@ Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
+
 $role = '';
 Route::middleware([
     'auth:sanctum',
@@ -33,7 +34,9 @@ Route::middleware([
     })->name('dashboard');
 
     Route::resource('/user', UserController::class);
+    Route::get('/user/list/user', [UserController::class, 'list'])->name('user.list');
     Route::group(['prefix' => 'temuan', 'as' => 'temuan.'], function() {
+        Route::post('/send-email/{id}', [TemuanController::class, 'sendEmail'])->name('send-email');
         Route::get('/', [TemuanController::class, 'index'])->name('index');
         Route::post('/dataTable', [TemuanController::class, 'dataTable'])->name('dataTable');
         Route::get('/create', [TemuanController::class, 'create'])->name('create');

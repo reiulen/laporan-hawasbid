@@ -55,13 +55,10 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function mahasiswa()
+    public function getImageAttribute()
     {
-        return $this->hasOne(Mahasiswa::class, 'user_id', 'id');
-    }
-
-    public function dosen()
-    {
-        return $this->hasOne(Dosen::class, 'user_id', 'id');
+        if ($this->profile_photo_path)
+            return $this->profile_photo_path;
+        return 'https://ui-avatars.com/api/?name='.urlencode($this->name).'&color=7F9CF5&background=EBF4FF';
     }
 }
