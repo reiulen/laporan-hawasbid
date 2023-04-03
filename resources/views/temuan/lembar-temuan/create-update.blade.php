@@ -37,9 +37,9 @@
                                 <span><input type="date" name="tanggal_pelaksanaan_sampai" value="{{ old('tanggal_pelaksanaan_sampai', (($detail->first() ?? null) ? date('Y-m-d', strtotime($detail->first()->tanggal_pelaksanaan_sampai)) : '')) }}"  class="form-control" required/></span></p>
                         </div>
                         <div class="mt-5">
-                            <ol style="list-style-type: upper-alpha;">
-                                <li>
-                                    <div>Bidang Manajemen Peradilan</div>
+                            <div>
+                                <div>{{ $data->pengawas_bidang }}</div>
+                                <div class="pl-4">
                                     <div>Pejabat Penanggung Jawab Tindak Lanjut : {{ ($data->penanggung_jawab_tindak_lanjut_tipe ? 'Panitera' : 'Sekertaris') . ' - ' . $data->penanggung_jawab_tindak_lanjut }}</div>
                                     <div class="list-form">
                                         @if (count($detail) > 0)
@@ -204,8 +204,8 @@
                                             Tambah Temuan
                                         </div>
                                     </div>
-                                </li>
-                            </ol>
+                                </div>
+                            </div>
                         </div>
                         <div class="mt-5 d-flex align-items-center justify-content-between">
                             <a href="{{ route('temuan.edit', $data->id) }}" class="btn btn-danger">
