@@ -2,10 +2,8 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('dashboard') }}" class="brand-link d-flex justify-content-center align-items-center">
-        <div class="brand-text text-center h5 align-middle">
-            <img src="{{ asset('assets/images/logo.png') }}"
-                style="height: 40px"
-                class="object-fit-cover mt-3"/>
+        <div class="brand-text text-center align-middle">
+            <div class="brand-text h5">PENGADILAN AGAMA <br/> CIREBON</div>
         </div>
     </a>
 
@@ -61,9 +59,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column nav-flat nav-child-indent" data-widget="treeview"
                 role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-                    with font-awesome or any other icon font library -->
-                <li class="nav-header">Database</li>
+                <li class="nav-header">Sistem</li>
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}" class="nav-link {{ set_active(['dashboard']) }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -71,8 +67,8 @@
                     </a>
                 </li>
                 <li
-                    class="nav-item nav-item {{ set_menu_open(['dosen.index', 'mahasiswa.index', 'tahun-akademik.index', 'data-sk.index']) }}">
-                    <a href="#" class="nav-link {{ set_active(['dosen.index', 'mahasiswa.index', 'tahun-akademik.index', 'data-sk.index']) }}">
+                    class="nav-item nav-item {{ set_menu_open(['user.index']) }}">
+                    <a href="#" class="nav-link {{ set_active(['user.index']) }}">
                         <i class="fas fa-save nav-icon"></i>
                         <p>
                             {{ __('Master') }}
@@ -80,107 +76,38 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        @if (Auth::user()->role == 1)
                         <li class="nav-item">
-                            <a href="{{ route('tahun-akademik.index') }}" class="nav-link {{ set_active_sub(['tahun-akademik.index']) }}">
+                            <a href="{{ route('user.index') }}" class="nav-link {{ set_active_sub(['user.index']) }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('Tahun Akademik') }}</p>
+                                <p>{{ __('User') }}</p>
                             </a>
                         </li>
-                        @endif
-                        @if (Auth::user()->role == 2 || Auth::user()->role == 1)
-                        <li class="nav-item">
-                            <a href="{{ route('dosen.index') }}" class="nav-link {{ set_active_sub(['dosen.index']) }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{ Auth::user()->role == 2 ? __('Data Bimbingan') : __('Dosen') }}</p>
-                            </a>
-                        </li>
-                        @endif
-                        @if (Auth::user()->role == 3 || Auth::user()->role == 1)
-                        <li class="nav-item">
-                            <a href="{{ route('mahasiswa.index') }}" class="nav-link {{ set_active_sub(['mahasiswa.index']) }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('Mahasiswa') }}</p>
-                            </a>
-                        </li>
-                        @endif
-                        @if (Auth::user()->role == 2 || Auth::user()->role == 3)
-                        <li class="nav-item">
-                            <a href="{{ route('data-sk.index') }}" class="nav-link {{ set_active_sub(['data-sk.index']) }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('Data SK') }}</p>
-                            </a>
-                        </li>
-                        @endif
                     </ul>
                 </li>
                 <li
-                    class="nav-item nav-item {{ set_menu_open(['seminar-skripsi.index', 'skripsi.index', 'bimbingan.index']) }}">
-                    <a href="#" class="nav-link {{ set_active(['seminar-skripsi.index', 'skripsi.index', 'bimbingan.index']) }}">
-                        <i class="fas fa-bookmark nav-icon"></i>
+                    class="nav-item nav-item {{ set_menu_open(['temuan.index']) }}">
+                    <a href="#" class="nav-link {{ set_active(['temuan.index']) }}">
+                        <i class="fas fa-file nav-icon"></i>
                         <p>
-                            {{ __('Akademik') }}
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        @if (Auth::user()->role != 2)
-                        <li class="nav-item">
-                            <a href="{{ route('seminar-skripsi.index') }}" class="nav-link {{ set_active_sub(['seminar-skripsi.index']) }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('Seminar Skripsi') }}</p>
-                            </a>
-                        </li>
-                        @endif
-                        <li class="nav-item">
-                            <a href="{{ route('skripsi.index') }}" class="nav-link {{ set_active_sub(['skripsi.index']) }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('Skripsi') }}</p>
-                            </a>
-                        </li>
-                        @if (Auth::user()->role != 3)
-                        <li class="nav-item">
-                            <a href="{{ route('bimbingan.index') }}" class="nav-link {{ set_active_sub(['bimbingan.index']) }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('Bimbingan Kelas') }}</p>
-                            </a>
-                        </li>
-                        @endif
-                    </ul>
-                </li>
-                @if(Auth::user()->role == 1)
-                <li
-                    class="nav-item nav-item {{ set_menu_open(['data-skripsi', 'admin.index', 'pengumuman.index', 'pengumuman.show']) }}">
-                    <a href="#" class="nav-link {{ set_active(['data-skripsi', 'admin.index', 'pengumuman.index', 'pengumuman.show']) }}">
-                        <i class="fas fa-cog nav-icon"></i>
-                        <p>
-                            {{ __('Pengaturan') }}
+                            {{ __('Temuan') }}
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('data-skripsi') }}" class="nav-link {{ set_active_sub(['data-skripsi']) }}">
+                            <a href="{{ route('temuan.index') }}" class="nav-link {{ set_active_sub(['temuan.index']) }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('Data Skripsi') }}</p>
+                                <p>{{ __('List') }}</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.index') }}" class="nav-link {{ set_active_sub(['admin.index']) }}">
+                            <a href="{{ route('temuan.create') }}" class="nav-link {{ set_active_sub(['temuan.create']) }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('Admin') }}</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('pengumuman.index') }}" class="nav-link {{ set_active_sub(['pengumuman.index', 'pengumuman.show']) }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('Pengumuman') }}</p>
+                                <p>{{ __('Tambah Temuan') }}</p>
                             </a>
                         </li>
                     </ul>
                 </li>
-                @endif
-
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

@@ -62,39 +62,81 @@ if(!function_exists('upload_file')){
     }
 }
 
-
 if(!function_exists('nameRole')){
     function nameRole($role){
         switch($role) {
             case 1 :
-                $role = 'Admin';
+                $role = 'Super Admin';
                 break;
             case 2 :
-                $role = 'Dosen';
+                $role = 'Admin';
                 break;
             case 3 :
-                $role = 'Mahasiswa';
+                $role = 'User';
                 break;
         }
         return $role;
     }
 }
 
-if(!function_exists('iconFile')){
-    function iconFile($file){
-        switch($file) {
-            case 'docx' :
-                $file = 'Admin';
+if(!function_exists('badgeRole')){
+    function badgeRole($role){
+        switch($role) {
+            case 1 :
+                $role = 'Super Admin';
+                $badge = 'dark';
                 break;
-            case 'pdf' :
-                $file = 'Dosen';
+            case 2 :
+                $role = 'Admin';
+                $badge = 'primary';
                 break;
-            case 'xls' :
-                $file = 'Mahasiswa';
+            case 3 :
+                $role = 'User';
+                $badge = 'danger';
                 break;
         }
-        return $file;
+        $component = "<span class='badge badge-$badge px-3 py-2'>$role</span>";
+        return $component;
     }
 }
 
+if(!function_exists('penanggungJawabTipe')){
+    function penanggungJawabTipe($value){
+        $panitera = [
+            'Panmud Permohonan',
+            'Panmud Gugatan',
+            'Panmud Hukum'
+        ];
+        $sekertaris = [
+            'Kasubag PTIP',
+            'Kasubag Umum & Keuangan',
+            'Kasubag Kepegawaian'
+        ];
+        if(array_search($value, $panitera) !== false)
+            return 1;
+        else if(array_search($value, $sekertaris) !== false)
+            return 2;
+    }
+}
+
+
+if(!function_exists('triwulan')){
+    function triwulan($value){
+        switch($value) {
+            case 1 :
+                $value = 'I';
+                break;
+            case 2 :
+                $value = 'II';
+                break;
+            case 3 :
+                $value = 'III';
+                break;
+            case 4 :
+                $value = 'IV';
+                break;
+        }
+        return $value;
+    }
+}
 

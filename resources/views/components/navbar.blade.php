@@ -5,17 +5,6 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-      <li class="nav-item">
-        <form action="{{ route('changeTH') }}" method="post" id="formChangeTH">
-            @csrf
-            <select class="form-control changeTA select2" name="tahun_akademik_id" style="min-width: 240px">
-                <option disabled>Pilih Tahun Akademik</option>
-                @foreach ($tahun_akademik as $ta)
-                <option value="{{ $ta->id }}" {{ Session('tahun_akademik_id') == $ta->id ? 'selected' : '' }}>TA  {{ $ta->tahun_akademik }} {{ $ta->semester }}</option>
-                @endforeach
-            </select>
-        </form>
-      </li>
     </ul>
 
     <!-- Right navbar links -->

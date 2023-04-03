@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login | SISTEM INFORMASI AKADEMIK PRODI</title>
+    <title>Login | APLIKASI LAPORAN HAWASBID PENGADILAN AGAMA CIREBON</title>
     <link rel="icon" type="image/png" href="/assets/gambar/logo.png" />
 
     <!-- Google Font: Source Sans Pro -->
@@ -21,66 +21,89 @@
 
 </head>
 
-<body>
-    <div class="section">
-        <div class="d-flex flex-wrap align-items-stretch">
-            <div class="col-lg-4 col-md-5 min-vh-100">
-                <div class="p-5" style="margin-top: 150px">
-                    {{-- <x-jet-validation-errors class="mb-3 rounded-0" /> --}}
-                    @if ($errors->any())
-                    <div class="alert alert-danger" role="alert">Email dan password tidak ditemukan</div>
-                    @endif
-                    <h6 class="text-left">Silahkan Login</h6>
-                    <form action="{{ route('login') }}" method="POST">
-                        @csrf
-                        <div class="mt-3">
-                            <div class="form-group mb-4">
-                                <label><b>Username</b></label>
-                                <input
-                                    name="username"
-                                    class="form-control p-4 border-blue"
-                                    placeholder="Masukan NIY/NIP/NIM"
-                                    required
-                                    />
-                            </div>
-                            <div class="form-group mb-4">
-                                <label><b>Password</b></label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    class="form-control p-4 border-blue"
-                                    placeholder="Masukan kata sandi..."
-                                    required
-                                    />
-                            </div>
-                            <div class="mt-5 text-center">
-                                <button
-                                    class="btn btn-blue text-center"
-                                    style="
-                                        border-radius: 10px;
-                                        padding: 10px 35px">
-                                    <i class="fas fa-paper-plane"></i>
-                                    Masuk
-                                </button>
-                            </div>
-                            <div class="mt-5 text-center">
-                                Apabila anda tidak memilik akun silahkan menghubungi <br/>
-                                <a href="https://api.whatsapp.com/send/?phone=081906793339" target="_blank" class="text-red">staff laboratorium pbsi</a>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <!-- /.login-logo -->
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <p class="text-center">
+                    <a href="" class="text-dark">
+                        <h5>APLIKASI LAPORAN HAWASBID PENGADILAN AGAMA CIREBON</h5>
+                    </a>
+                </p>
+            </div>
+            <div class="card-body">
+                @if ($errors->any())
+                <div class="alert alert-danger" role="alert">Email dan password tidak ditemukan</div>
+                @endif
+                <form action="{{ route('login') }}" method="POST">
+                    @csrf
+                    <div class="input-group mb-3">
+                        <input type="email" name="email" class="form-control" placeholder="Email" required>
+                        <x-jet-input-error for="email"></x-jet-input-error>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
                             </div>
                         </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-lg-8 col-md-7 d-md-block d-none">
-                <div class="bg-login-page">
-                </div>
-            </div>
-        </div>
-    </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" name="password" id="password" class="form-control"
+                            placeholder="Kata sandi" required>
+                        <div class="input-group-append" role="button" onclick="showpassword()">
+                            <div class="input-group-text">
+                                <i class="fa fa-eye-slash" id="eye"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="icheck" style="font-size: 14px;">
+                                <input type="checkbox" class="remember-me mr-1" name="remember" value="1"
+                                    id="remember">
+                                <label for="remember">
+                                    Ingat Saya
+                                </label>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block bg-blue btn-masuk">Masuk</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
 
+                <p class="mb-1">
+                    <a href="/lupakatasandi">Lupa kata sandi</a>
+                </p>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.login-box -->
+
+    <!-- jQuery -->
     <script src="/assets/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
     <script src="/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
     <script src="/assets/dist/js/adminlte.min.js"></script>
+    <script>
+        function showpassword() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+                $('#eye').addClass("fa-eye");
+                $('#eye').removeClass("fa-eye-slash");
+            } else {
+                x.type = "password";
+                $('#eye').removeClass("fa-eye");
+                $('#eye').addClass("fa-eye-slash");
+            }
+        }
+    </script>
 </body>
 
 </html>
