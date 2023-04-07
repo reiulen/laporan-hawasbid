@@ -64,7 +64,7 @@
                         <div class="bold" >TAMPILAN HASIL CETAK EVIDEN</div>
                         @if ($item->foto_eviden ?? null)
                         <div style="margin-top: 8px">
-                            <img src="{{ public_path($item->foto_eviden) }}" style="height: 250px" />
+                            <img src="{{ public_path($item->foto_eviden) }}" style="height: 250px; width: 100%" />
                         </div>
                         <div>{{ $item->deskripsi_foto_eviden }}</div>
                             @else
@@ -85,7 +85,7 @@
                         <div class="bold" style="margin-bottom: 5px">Foto Eviden Tindak Lanjut:</div>
                        @if ($data->tindakLanjut->foto_eviden_tindak_lanjut ?? null)
                        <div style="padding-left: 17px">
-                            <img src="{{ public_path($item->foto_eviden) }}" style="height: 250px" />
+                            <img src="{{ public_path($item->foto_eviden) }}" style="height: 250px; width: 100%" />
                         </div>
                         <div>{{ $item->deskripsi_foto_eviden }}</div>
                         @else
