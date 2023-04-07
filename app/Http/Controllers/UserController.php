@@ -52,9 +52,15 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
+            'jabatan' => 'required',
             'password' => 'required|min:6',
             'password_confirmation' => 'required|same:password',
         ]);
+
+        if($request->role == 3)
+            $request->validate([
+                'jabatan' => 'required',
+            ]);
 
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
@@ -97,6 +103,10 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $data = User::findOrFail($id);
+        if($request->role == 3)
+            $request->validate([
+                'jabatan' => 'required',
+            ]);
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,

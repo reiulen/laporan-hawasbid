@@ -3,7 +3,7 @@
         <!-- Logo -->
         <a class="navbar-brand me-4" href="/">
             <img src="{{ asset('assets/images/logo-user.png') }}"
-                style="height: 40px;">
+                style="height: 50px;">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>

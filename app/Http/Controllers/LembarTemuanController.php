@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Temuan;
+use App\Mail\TemuanEmail;
+use App\Jobs\SendMailTemuan;
 use App\Models\TemuanDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class LembarTemuanController extends Controller
@@ -73,7 +77,7 @@ class LembarTemuanController extends Controller
                 ]);
             else
                 $validasi = Validator::make($input, [
-                    "foto_eviden.{$key}" => "required|image|mimes:jpeg,png,jpg,gif,svg|max:4048",
+                    "foto_eviden.{$key}" => "image|mimes:jpeg,png,jpg,gif,svg|max:4048",
                 ]);
 
             if ($validasi->fails())
@@ -114,6 +118,12 @@ class LembarTemuanController extends Controller
                     File::delete($item->foto_eviden);
                 $item->delete();
             }
+        }
+
+        $user = User::where('jabatan', $data->penanggung_jawab_tindak_lanjut)->get();
+        if(count($user) > 0 && $data->detail) {
+            $job = new SendMailTemuan($user, $data, $data->detail);
+            $this->dispatch($job);
         }
 
         return response()->json([

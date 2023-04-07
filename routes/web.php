@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TemuanController;
 use App\Http\Controllers\LembarTemuanController;
+use App\Http\Controllers\TindakLanjutController;
+use App\Models\Temuan;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +33,16 @@ Route::middleware([
 ])->prefix('admin')
 ->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $pengguna = User::select('id')->count();
+        $temuan = Temuan::select('id', 'hakim_pengawas_bidang','penanggung_jawab_tindak_lanjut','status');
+        if(Auth::user()->role == 2)
+            $temuan->where('hakim_pengawas_bidang', Auth::user()->id);
+        else if(Auth::user()->role == 3)
+            $temuan->where('penanggung_jawab_tindak_lanjut', Auth::user()->jabatan);
+        $temuan = $temuan->get();
+        $belum_tindak = $temuan->where('status', 1)->count();
+        $sudah_tindak = $temuan->where('status', 2)->count();
+        return view('dashboard', compact('pengguna','temuan', 'belum_tindak', 'sudah_tindak'));
     })->name('dashboard');
 
     Route::resource('/user', UserController::class);
@@ -46,6 +58,12 @@ Route::middleware([
         Route::put('/{id}/update', [TemuanController::class, 'update'])->name('update');
         Route::get('/{id}/lembar-temuan', [LembarTemuanController::class, 'create'])->name('lembar-temuan.create');
         Route::put('/{id}/lembar-temuan/update', [LembarTemuanController::class, 'updateTemuan'])->name('lembar-temuan.update');
+    });
+    Route::group(['prefix' => 'tindak-lanjut', 'as' => 'tindak-lanjut.'], function() {
+        Route::get('/', [TindakLanjutController::class, 'index'])->name('index');
+        Route::get('/{id}/temuan', [TindakLanjutController::class, 'temuan'])->name('temuan');
+        Route::put('/{id}/tindak-lanjut', [TindakLanjutController::class, 'update'])->name('update');
+        Route::post('/dataTable', [TindakLanjutController::class, 'dataTable'])->name('dataTable');
     });
 
 });

@@ -23,7 +23,7 @@
                         {{ Str::substr(Auth::user()->name, 0, 18) }}
                     </p>
                     <p class="level text-muted">
-                        {{ nameRole(Auth::user()->role) }}
+                        {{ nameRole(Auth::user()->jabatan) }}
                     </p>
                 </a>
                 <div class="dropdown-menu bg-dark border-0 shadow-lg" aria-labelledby="dropdownMenuButton">
@@ -66,6 +66,8 @@
                         <p>{{ __('Dashboard') }}</p>
                     </a>
                 </li>
+                @if (Auth::user()->role != 3)
+                @if (Auth::user()->role == 1)
                 <li
                     class="nav-item nav-item {{ set_menu_open(['user.index']) }}">
                     <a href="#" class="nav-link {{ set_active(['user.index']) }}">
@@ -84,6 +86,7 @@
                         </li>
                     </ul>
                 </li>
+                @endif
                 <li
                     class="nav-item nav-item {{ set_menu_open(['temuan.index']) }}">
                     <a href="#" class="nav-link {{ set_active(['temuan.index']) }}">
@@ -104,6 +107,25 @@
                             <a href="{{ route('temuan.create') }}" class="nav-link {{ set_active_sub(['temuan.create']) }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>{{ __('Tambah Temuan') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
+                <li
+                    class="nav-item nav-item {{ set_menu_open(['tindak-lanjut.index', 'tindak-lanjut.temuan']) }}">
+                    <a href="#" class="nav-link {{ set_active(['tindak-lanjut.index', 'tindak-lanjut.temuan']) }}">
+                        <i class="fas fa-file nav-icon"></i>
+                        <p>
+                            {{ __('Tindak Lanjut') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('tindak-lanjut.index') }}" class="nav-link {{ set_active_sub(['tindak-lanjut.index']) }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ __('List') }}</p>
                             </a>
                         </li>
                     </ul>

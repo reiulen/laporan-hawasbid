@@ -32,6 +32,7 @@
                                     <th width="10px">No</th>
                                     <th>Nama</th>
                                     <th>Email</th>
+                                    <th>Jabatan</th>
                                     <th>Role</th>
                                     <th>Created At</th>
                                     <th>Action</th>
@@ -46,6 +47,7 @@
                                     <td>{{ ++$i }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->email }}</td>
+                                    <td>{{ $item->jabatan }}</td>
                                     <td>{!! badgeRole($item->role) !!}</td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>

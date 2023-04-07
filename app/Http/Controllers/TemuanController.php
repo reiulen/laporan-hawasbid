@@ -48,7 +48,10 @@ class TemuanController extends Controller
 
     public function edit($id)
     {
-        $data = Temuan::findOrFail($id);
+        $data = new Temuan;
+        if(Auth::user()->role == 2)
+            $data->where('hakim_pengawas_bidang', Auth::user()->id);
+        $data = $data->findOrFail($id);
         return view('temuan.create-update', compact('data'));
     }
 
@@ -80,14 +83,13 @@ class TemuanController extends Controller
                         ->with('detail', 'hakimPengawas:id,name')
                         ->latest()
                         ->filter($request);
+        if(Auth::user()->role == 2)
+            $data->where('hakim_pengawas_bidang', Auth::user()->id);
 
         return DataTables::of($data)
                             ->addindexColumn()
                             ->addColumn('cetak', function($data) {
                                 $cetak = "<div class='d-flex align-items-center' style='gap: 10px'>
-                                            <a href='".route('temuan.exportPDF',$data->id)."' target='_blank'>
-                                                <img src='".asset('assets/images/docx.png')."' style='height: 35px' />
-                                            </a>
                                             <a href='".route('temuan.exportPDF',$data->id)."' target='_blank'>
                                                 <img src='".asset('assets/images/pdf.png')."' style='height: 35px' />
                                             </a>
@@ -141,7 +143,7 @@ class TemuanController extends Controller
 
         $user = User::whereIn('id', $request->user_send)->get();
         if(count($user) > 0) {
-            $job = new SendMailTemuan($user);
+            $job = new SendMailTemuan($user, $data, $data->detail);
             $this->dispatch($job);
         }
 
@@ -156,9 +158,8 @@ class TemuanController extends Controller
     {
         $data = Temuan::with('detail')->findOrFail($id);
         $detail = $data->detail ?? [];
-        // return view('temuan.exportPdf', compact('data', 'detail'));
 
-        $cetak = 'Lembar Temuan Hakim Pengawas Bidang Pengadilan Agama Cirebon ('.date('d F Y').')';
+        $cetak = "Lembar Temuan Hakim Pengawas Bidang Pengadilan Agama Cirebon $data->penanggung_jawab_tindak_lanjut ";
 
         $pdf = PDF::loadview('temuan.exportPdf', compact('data', 'detail'))
                     ->setPaper('A4', 'portrait');

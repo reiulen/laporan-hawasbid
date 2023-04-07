@@ -62,16 +62,43 @@
                     </div>
                     <div style="margin-top: 20px">
                         <div class="bold" >TAMPILAN HASIL CETAK EVIDEN</div>
+                        @if ($item->foto_eviden ?? null)
                         <div style="margin-top: 8px">
                             <img src="{{ asset($item->foto_eviden) }}" style="height: 250px" />
                         </div>
+                        <div>{{ $item->deskripsi_foto_eviden }}</div>
+                            @else
+                            <div style="padding-left: 17px">Tidak ada foto eviden</div>
+                        @endif
                     </div>
+                    @if ($data->tindakLanjut)
+                    <div class="bold" style="margin-top: 20px; margin-bottom: 5px">TINDAK LANJUT:</div>
+                    <div style="margin-bottom: 5px">
+                        <div class="bold" style="margin-bottom: 5px">1. Tanggal Tindak Lanjut:</div>
+                        <div style="padding-left: 17px">{{ $data->tindakLanjut ? dateMonthIndo($data->tindakLanjut->tanggal_tindak_lanjut, 'd F Y') : '' }}</div>
+                    </div>
+                    <div style="margin-bottom: 5px">
+                        <div class="bold" style="margin-bottom: 5px">2. Keterangan Tindak Lanjut:</div>
+                        <div style="padding-left: 17px">{{ $data->tindakLanjut->tindak_lanjut ?? ''  }}</div>
+                    </div>
+                    <div style="margin-bottom: 5px">
+                        <div class="bold" style="margin-bottom: 5px">Foto Eviden Tindak Lanjut:</div>
+                       @if ($data->tindakLanjut->foto_eviden_tindak_lanjut ?? null)
+                       <div style="padding-left: 17px">
+                            <img src="{{ asset($item->foto_eviden) }}" style="height: 250px" />
+                        </div>
+                        <div>{{ $item->deskripsi_foto_eviden }}</div>
+                        @else
+                        <div style="padding-left: 17px">Tidak ada foto eviden tindak lanjut</div>
+                       @endif
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
-        @if (!$detail->last()->id == $item->id)
+        {{-- @if (!$detail->last()->id == $item->id) --}}
         <div class="page_break"></div>
-        @endif
+        {{-- @endif --}}
         @endforeach
     </body>
 </html>

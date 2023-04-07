@@ -46,6 +46,35 @@
                         <div class="form-group row mb-3">
                             <div class="col-md-6">
                                 <label for="role">
+                                 Pejabat Penanggung Jawab Tindak Lanjut
+                                </label>
+                                @php
+                                    $penanggung_jawab = [
+                                        "PANITERA" => [
+                                            'Panmud Permohonan',
+                                            'Panmud Gugatan',
+                                            'Panmud Hukum'
+                                        ],
+                                        "SEKERTARIS" => [
+                                            'Kasubag PTIP',
+                                            'Kasubag Umum & Keuangan',
+                                            'Kasubag Kepegawaian'
+                                        ]
+                                    ];
+                                @endphp
+                                <select class="form-control select2" name="jabatan" required>
+                                    <option value="">Pilih Jabatan</option>
+                                    @foreach ($penanggung_jawab as $key => $pnj)
+                                       <optgroup label="{{ $key }}">
+                                        @foreach ($pnj as $pn)
+                                            <option value="{{ $pn }}" {{ old('jabatan', ($data->jabatan ?? '')) == $pn ? 'selected' : '' }}>{{ $pn }}</option>
+                                        @endforeach
+                                        </optgroup>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="role">
                                    Role
                                 </label>
                                 @php

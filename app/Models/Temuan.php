@@ -21,6 +21,11 @@ class Temuan extends Model
         return $this->belongsTo(User::class, 'hakim_pengawas_bidang');
     }
 
+    public function tindakLanjut()
+    {
+        return $this->hasone(TindakLanjut::class, 'temuan_id');
+    }
+
     public function scopeFilter($query, $filter)
     {
         return $query->when($filter->pengawas_bidang ?? false, function($query) use ($filter) {

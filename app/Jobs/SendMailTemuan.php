@@ -21,9 +21,13 @@ class SendMailTemuan implements ShouldQueue
      * @return void
      */
     protected $user;
-    public function __construct($user)
+    protected $data;
+    protected $detail;
+    public function __construct($user, $data, $detail)
     {
         $this->user = $user;
+        $this->data = $data;
+        $this->detail = $detail;
     }
 
     /**
@@ -34,8 +38,10 @@ class SendMailTemuan implements ShouldQueue
     public function handle()
     {
         $user = $this->user;
+        $data = $this->data;
+        $detail = $this->detail;
         foreach ($user as $key => $item) {
-           Mail::to($item->email)->send(new TemuanEmail($item));
+           Mail::to($item->email)->send(new TemuanEmail($item, $data, $detail));
         }
     }
 }
