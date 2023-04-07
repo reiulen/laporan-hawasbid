@@ -83,11 +83,11 @@
                     </div>
                     <div style="margin-bottom: 5px">
                         <div class="bold" style="margin-bottom: 5px">Foto Eviden Tindak Lanjut:</div>
-                       @if ($data->tindakLanjut->foto_eviden_tindak_lanjut ?? null)
+                       @if (($data->tindakLanjut->foto_eviden ?? null))
                        <div style="padding-left: 17px">
-                            <img src="{{ public_path($item->foto_eviden) }}" style="height: 250px; max-width: 100%" />
+                            <img src="{{ public_path($data->tindakLanjut->foto_eviden) }}" style="height: 250px; max-width: 100%" />
                         </div>
-                        <div>{{ $item->deskripsi_foto_eviden }}</div>
+                        <div>{{ $data->tindakLanjut->deskripsi_foto_eviden ?? '' }}</div>
                         @else
                         <div style="padding-left: 17px">Tidak ada foto eviden tindak lanjut</div>
                        @endif
