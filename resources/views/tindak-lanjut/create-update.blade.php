@@ -31,6 +31,23 @@
                         <x-jet-validation-errors/>
                         <div class="form-group row mb-3">
                             <div class="col-md-6">
+                                <label for="status">
+                                    Status
+                                 </label>
+                                 @php
+                                     $status = [
+                                        1 => 'Belum ditidaklanjuti',
+                                        2 => 'Sudah ditidaklanjuti',
+                                     ];
+                                 @endphp
+                                 <select class="form-control select2" name="status" required>
+                                     <option value="">Pilih Status</option>
+                                     @foreach ($status as $key => $rmp)
+                                         <option value="{{ $key }}" {{ old('status', ($data->status ?? '')) == $key ? 'selected' : '' }}>{{ $rmp }}</option>
+                                     @endforeach
+                                 </select>
+                            </div>
+                            <div class="col-md-6">
                                 <label for="tanggal_tindak_lanjut">
                                    Tanggal Tindak Lanjut
                                 </label>

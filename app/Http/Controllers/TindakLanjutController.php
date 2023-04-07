@@ -33,11 +33,12 @@ class TindakLanjutController extends Controller
             "tanggal_tindak_lanjut" => "required",
             "tindak_lanjut" => "required",
             "foto_eviden" => "image|mimes:jpeg,png,jpg,gif,svg|max:4048",
+            'status' => 'required',
         ]);
 
         $data = Temuan::findOrFail($id);
         $data->update([
-            'status' => 2,
+            'status' => $request->status,
             // 'tanggal_tindak_lanjut' => date('Y-m-d', strtotime($request->tanggal_tindak_lanjut)),
         ]);
         $tindak_lanjut = TindakLanjut::find($data->tindakLanjut->id ?? null) ?? new TindakLanjut();
