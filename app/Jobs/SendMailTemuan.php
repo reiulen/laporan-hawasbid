@@ -41,7 +41,7 @@ class SendMailTemuan implements ShouldQueue
         $data = $this->data;
         $detail = $this->detail;
         foreach ($user as $key => $item) {
-           Mail::to($item->email)->send(new TemuanEmail($item, $data, $detail));
+           Mail::from('Aplikasi Hawasbid Pengadilan Agama Cirebon')->to($item->email)->send(new TemuanEmail($item, $data, $detail));
         }
     }
 }
