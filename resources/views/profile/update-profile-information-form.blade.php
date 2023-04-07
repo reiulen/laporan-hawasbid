@@ -9,6 +9,7 @@
 
     <x-slot name="form">
 
+        <x-jet-validation-errors/>
         <x-jet-action-message on="saved">
             {{ __('Saved.') }}
         </x-jet-action-message>
@@ -69,9 +70,9 @@
 
             <!-- Username -->
             <div class="mb-3">
-                <x-jet-label for="username" value="{{ __('Username') }}" />
-                <x-jet-input  wire:model.defer="state.username" disabled readonly />
-                <x-jet-input-error for="username" />
+                <x-jet-label for="email" value="{{ __('Email') }}" />
+                <x-jet-input type="email"  wire:model.defer="state.email" />
+                <x-jet-input-error for="email" />
             </div>
         </div>
     </x-slot>

@@ -23,7 +23,7 @@
                         {{ Str::substr(Auth::user()->name, 0, 18) }}
                     </p>
                     <p class="level text-muted">
-                        {{ nameRole(Auth::user()->jabatan) }}
+                        {{ Auth::user()->jabatan ? Auth::user()->jabatan : nameRole(Auth::user()->role) }}
                     </p>
                 </a>
                 <div class="dropdown-menu bg-dark border-0 shadow-lg" aria-labelledby="dropdownMenuButton">

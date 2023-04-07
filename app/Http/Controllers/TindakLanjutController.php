@@ -24,6 +24,7 @@ class TindakLanjutController extends Controller
             $data->where('penanggung_jawab_tindak_lanjut', Auth::user()->jabatan);
         $data = $data->findOrFail($id);
         $detail = $data->tindakLanjut ?? null;
+        // dd($detail);
         return view('tindak-lanjut.create-update', compact('data', 'detail'));
     }
 

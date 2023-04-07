@@ -23,7 +23,7 @@ class Temuan extends Model
 
     public function tindakLanjut()
     {
-        return $this->hasone(TindakLanjut::class, 'temuan_id');
+        return $this->hasone(TindakLanjut::class, 'temuan_id', 'id');
     }
 
     public function scopeFilter($query, $filter)
