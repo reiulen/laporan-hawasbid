@@ -2,14 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Temuan;
+use App\Mail\TemuanEmail;
+use App\Jobs\SendMailTemuan;
 use App\Models\TindakLanjut;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class TindakLanjutController extends Controller
 {
+    public function sendEmail(Request $request, $id)
+    {
+        $data = Temuan::find($id);
+        if(!$data)
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data tidak ditemukan'
+            ]);
+
+        if(count($request->user_send) < 1)
+            return response()->json([
+                'status' => false,
+                'message' => 'Pilih user yang akan dikirim email'
+            ]);
+
+        $user = User::whereIn('id', $request->user_send)->get();
+        if(count($user) > 0) {
+            // foreach($user as $item) {
+            //     Mail::to($item->email)->send(new TemuanEmail($item, $data, $data->detail, true));
+            // }
+            $job = new SendMailTemuan($user, $data, $data->detail, true);
+            $this->dispatch($job);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Email berhasil dikirim dan sedang dalam antrian'
+        ]);
+    }
+
     public function index()
     {
         return view('tindak-lanjut.index');
@@ -71,7 +105,16 @@ class TindakLanjutController extends Controller
         return DataTables::of($data)
                             ->addindexColumn()
                             ->addColumn('action', function($data) {
+                                $buttonKirimEmail = '';
+                                if($data->tindakLanjut)
+                                    $buttonKirimEmail = "<div>
+                                                            <div class='btn btn-dark btn-sm text-nowrap send-email' role='button' data-id='$data->id'>
+                                                                <i class='fas fa-envelope'></i>
+                                                                Kirim Email
+                                                            </div>
+                                                        </div>";
                                 $action = "<div class='d-flex align-items-center' style='gap: 10px'>
+                                            $buttonKirimEmail
                                             <a class='btn btn-success text-nowrap btn-sm' target='_blank' href='".route('temuan.exportPDF',$data->id)."''>
                                                 <i class='fas fa-eye'></i>
                                                 Lihat Temuan
@@ -91,7 +134,8 @@ class TindakLanjutController extends Controller
                                 $detail = $data->detail ?? [];
                                 $html = '';
                                 foreach ($detail as $key => $item) {
-                                    $html .= '<img src="'.asset($item->foto_eviden).'" style="height: 60px; width: 60px; object-fit:cover" /> ';
+                                    if(isset($item->foto_eviden))
+                                        $html .= '<img src="'.asset($item->foto_eviden).'" style="height: 60px; width: 60px; object-fit:cover" /> ';
                                 }
                                 return '<div class="d-flex justify-content-center" style="gap: 20px;">'.$html.'</div>';
                             })->rawColumns(['triwulan', 'foto_eviden', 'action'])

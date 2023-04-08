@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function list(Request $request)
     {
-        $user = User::select('id', 'name', 'profile_photo_path as image', 'email')
+        $user = User::select('id', 'name', 'profile_photo_path as image', 'email', 'jabatan')
                             ->where('name', 'like', '%'.$request->keyword.'%')
                             ->get();
         return $user->toJson();
@@ -38,6 +38,8 @@ class UserController extends Controller
      */
     public function create()
     {
+        if(Auth::user()->role == 3)
+            return abort(404);
         return view('user.create-update');
     }
 
@@ -49,10 +51,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        if(Auth::user()->role == 3)
+            return abort(404);
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'jabatan' => 'required',
+            'role' => 'required',
             'password' => 'required|min:6',
             'password_confirmation' => 'required|same:password',
         ]);
@@ -89,6 +94,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        if(Auth::user()->role == 3)
+            return abort(404);
         $data = User::findOrFail($id);
         return view('user.create-update', compact('data'));
     }
@@ -102,6 +109,8 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(Auth::user()->role == 3)
+            return abort(404);
         $data = User::findOrFail($id);
         if($request->role == 3)
             $request->validate([
@@ -109,6 +118,7 @@ class UserController extends Controller
             ]);
         $request->validate([
             'name' => 'required',
+            'role' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
         ]);
 
@@ -137,6 +147,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        if(Auth::user()->role != 1)
+            return abort(404);
         $data = User::findOrFail($id);
         if($data->profile_photo_path)
             File::delete("/uploads/images/$data->profile_photo_path");

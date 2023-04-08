@@ -64,6 +64,7 @@ Route::middleware([
         Route::get('/{id}/temuan', [TindakLanjutController::class, 'temuan'])->name('temuan');
         Route::put('/{id}/tindak-lanjut', [TindakLanjutController::class, 'update'])->name('update');
         Route::post('/dataTable', [TindakLanjutController::class, 'dataTable'])->name('dataTable');
+        Route::post('/send-email/{id}', [TindakLanjutController::class, 'sendEmail'])->name('send-email');
     });
 
 });

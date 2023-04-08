@@ -66,11 +66,9 @@
                         <p>{{ __('Dashboard') }}</p>
                     </a>
                 </li>
-                @if (Auth::user()->role != 3)
-                @if (Auth::user()->role == 1)
                 <li
-                    class="nav-item nav-item {{ set_menu_open(['user.index']) }}">
-                    <a href="#" class="nav-link {{ set_active(['user.index']) }}">
+                    class="nav-item nav-item {{ set_menu_open(['user.index', 'user.create', 'user.edit']) }}">
+                    <a href="#" class="nav-link {{ set_active(['user.index', 'user.create', 'user.edit']) }}">
                         <i class="fas fa-save nav-icon"></i>
                         <p>
                             {{ __('Master') }}
@@ -81,15 +79,15 @@
                         <li class="nav-item">
                             <a href="{{ route('user.index') }}" class="nav-link {{ set_active_sub(['user.index']) }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('User') }}</p>
+                                <p>{{ __('Pengguna') }}</p>
                             </a>
                         </li>
                     </ul>
                 </li>
-                @endif
+                @if (Auth::user()->role != 3)
                 <li
-                    class="nav-item nav-item {{ set_menu_open(['temuan.index']) }}">
-                    <a href="#" class="nav-link {{ set_active(['temuan.index']) }}">
+                    class="nav-item nav-item {{ set_menu_open(['temuan.index', 'temuan.create']) }}">
+                    <a href="#" class="nav-link {{ set_active(['temuan.index', 'temuan.create']) }}">
                         <i class="fas fa-file nav-icon"></i>
                         <p>
                             {{ __('Temuan') }}

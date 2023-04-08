@@ -37,7 +37,7 @@
                                         <th class="text-nowrap">Pengawas Bidang</th>
                                         <th>Status</th>
                                         <th class="text-nowrap">Pejabat Penanggung <br/> Jawab Tindak Lanjut</th>
-                                        <th class="text-nowrap">Tanggal/Bulan/Tahun <br/> Tindak Lanjut</th>
+                                        <th class="text-nowrap">Tanggal/Bulan/Tahun <br/> Temuan</th>
                                         <th class="text-nowrap">Hakim Pengawas <br/> Bidang</th>
                                         <th class="text-nowrap">Triwulan Ke</th>
                                         <th rowspan="2">Eviden</th>

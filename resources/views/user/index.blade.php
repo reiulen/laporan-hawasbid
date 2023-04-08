@@ -15,6 +15,7 @@
           <div class="row">
             <div class="col-12">
                 <div class="card card-outline">
+                    @if (Auth::user()->role != 3)
                     <div class="card-header">
                         <div class="row">
                             <div class="d-md-flex">
@@ -24,6 +25,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="example1" class="table table-bordered  table-hover">
@@ -35,7 +37,9 @@
                                     <th>Jabatan</th>
                                     <th>Role</th>
                                     <th>Created At</th>
+                                    @if (Auth::user()->role != 3)
                                     <th>Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,11 +54,13 @@
                                     <td>{{ $item->jabatan }}</td>
                                     <td>{!! badgeRole($item->role) !!}</td>
                                     <td>{{ $item->created_at }}</td>
+                                   @if (Auth::user()->role != 3)
                                     <td>
                                         <a href="{{ route('user.edit', $item->id) }}" class="btn btn-primary btn-sm">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
-                                        <div
+                                    @if (Auth::user()->role == 1)
+                                    <div
                                             role="button"
                                             class="btn btn-danger btn-sm deleteData"
                                             data-name="{{ $item->nama }}"
@@ -66,7 +72,9 @@
                                             @csrf
                                             @method('DELETE')
                                         </form>
+                                    @endif
                                     </td>
+                                   @endif
                                 </tr>
                                 @endforeach
                             </tbody>

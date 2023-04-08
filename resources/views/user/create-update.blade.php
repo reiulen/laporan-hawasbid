@@ -46,10 +46,13 @@
                         <div class="form-group row mb-3">
                             <div class="col-md-6">
                                 <label for="role">
-                                 Pejabat Penanggung Jawab Tindak Lanjut
+                                Pejabat Penanggung Jawab
                                 </label>
                                 @php
                                     $penanggung_jawab = [
+                                        "" => [
+                                            "Hakim"
+                                        ],
                                         "PANITERA" => [
                                             'Panmud Permohonan',
                                             'Panmud Gugatan',
@@ -59,11 +62,11 @@
                                             'Kasubag PTIP',
                                             'Kasubag Umum & Keuangan',
                                             'Kasubag Kepegawaian'
-                                        ]
+                                        ],
                                     ];
                                 @endphp
-                                <select class="form-control select2" name="jabatan" required>
-                                    <option value="">Pilih Jabatan</option>
+                                <select class="form-control select2" name="jabatan">
+                                    <option value="">Pilih Pejabat Penanggung Jawab</option>
                                     @foreach ($penanggung_jawab as $key => $pnj)
                                        <optgroup label="{{ $key }}">
                                         @foreach ($pnj as $pn)
@@ -84,7 +87,7 @@
                                         3 =>  'User'
                                     ];
                                 @endphp
-                                <select class="form-control" name="role">
+                                <select class="form-control @error('role') is-invalid @enderror" name="role">
                                     <option value="">Pilih Role</option>
                                     @foreach ($role as $key => $rmp)
                                         <option value="{{ $key }}" {{ old('role', ($data->role ?? '')) == $key ? 'selected' : '' }}>{{ $rmp }}</option>

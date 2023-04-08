@@ -23,11 +23,13 @@ class SendMailTemuan implements ShouldQueue
     protected $user;
     protected $data;
     protected $detail;
-    public function __construct($user, $data, $detail)
+    protected $type;
+    public function __construct($user, $data, $detail, $type = null)
     {
         $this->user = $user;
         $this->data = $data;
         $this->detail = $detail;
+        $this->type = $type;
     }
 
     /**
@@ -40,8 +42,9 @@ class SendMailTemuan implements ShouldQueue
         $user = $this->user;
         $data = $this->data;
         $detail = $this->detail;
+        $type = $this->type;
         foreach ($user as $key => $item) {
-           Mail::from('Aplikasi Hawasbid Pengadilan Agama Cirebon')->to($item->email)->send(new TemuanEmail($item, $data, $detail));
+           Mail::to($item->email)->send(new TemuanEmail($item, $data, $detail, $type));
         }
     }
 }

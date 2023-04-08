@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use PDF;
 use App\Models\User;
 use App\Models\Temuan;
+use App\Mail\TemuanEmail;
+use App\Jobs\SendMailTemuan;
 use Illuminate\Http\Request;
 use App\Events\SendEmailTemuan;
-use App\Jobs\SendMailTemuan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Console\Scheduling\Event;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -117,7 +119,8 @@ class TemuanController extends Controller
                                 $detail = $data->detail ?? [];
                                 $html = '';
                                 foreach ($detail as $key => $item) {
-                                    $html .= '<img src="'.asset($item->foto_eviden).'" style="height: 60px; width: 60px; object-fit:cover" /> ';
+                                    if(isset($item->foto_eviden))
+                                        $html .= '<img src="'.asset($item->foto_eviden).'" style="height: 60px; width: 60px; object-fit:cover" /> ';
                                 }
                                 return '<div class="d-flex justify-content-center" style="gap: 20px;">'.$html.'</div>';
                             })->rawColumns(['triwulan', 'foto_eviden', 'cetak', 'action'])
@@ -128,7 +131,7 @@ class TemuanController extends Controller
 
     public function sendEmail(Request $request, $id)
     {
-        $data = Temuan::findOrFail($id);
+        $data = Temuan::find($id);
         if(!$data)
             return response()->json([
                 'status' => 'error',

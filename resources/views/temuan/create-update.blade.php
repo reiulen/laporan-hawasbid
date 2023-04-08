@@ -116,7 +116,7 @@
                         <div class="form-group row mb-3">
                             <div class="col-md-6">
                                 <label for="tanggal_tindak_lanjut">
-                                   Tanggal Tindak Lanjut
+                                   Tanggal Temuan
                                 </label>
                                 <input
                                     type="date"

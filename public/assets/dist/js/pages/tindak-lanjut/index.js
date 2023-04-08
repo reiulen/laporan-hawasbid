@@ -145,7 +145,7 @@ $('#modalSendEmail #formSendEmail').on('submit', async function(e) {
         confirmButtonText: 'Ya, Kirim!'
     }).then(async (result) => {
         if (result.isConfirmed) {
-            const res = await sendData(`${url}/admin/temuan/send-email/${id}`, 'POST', data);
+            const res = await sendData(`${url}/admin/tindak-lanjut/send-email/${id}`, 'POST', data);
             if (res.status) {
                $('#modalSendEmail').modal('hide');
                 Swal.fire(
@@ -271,6 +271,7 @@ $(function() {
                     <img class="img-selected" src="${state.profile_photo_url}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%">
                     <div>
                         <div>${state.name}</div>
+                        <div>${state.jabatan}</div>
                         <div>${state.email}</div>
                     </div>
                 </div>
@@ -287,6 +288,7 @@ $(function() {
                     <img src="${state.profile_photo_url}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%">
                     <div>
                         <div>${state.name}</div>
+                        <div>${state.jabatan}</div>
                         <div>${state.email}</div>
                     </div>
                 </div>
