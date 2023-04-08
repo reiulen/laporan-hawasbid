@@ -18,6 +18,7 @@ class UserController extends Controller
     {
         $user = User::select('id', 'name', 'profile_photo_path as image', 'email', 'jabatan')
                             ->where('name', 'like', '%'.$request->keyword.'%')
+                            ->orwhere('email', 'like', '%'.$request->keyword.'%')
                             ->get();
         return $user->toJson();
     }
