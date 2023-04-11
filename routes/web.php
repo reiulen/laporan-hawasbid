@@ -53,6 +53,7 @@ Route::middleware([
         Route::post('/dataTable', [TemuanController::class, 'dataTable'])->name('dataTable');
         Route::get('/create', [TemuanController::class, 'create'])->name('create');
         Route::post('/store', [TemuanController::class, 'store'])->name('store');
+        Route::delete('/{id}', [TemuanController::class, 'destroy'])->name('destory');
         Route::get('/{id}/edit', [TemuanController::class, 'edit'])->name('edit');
         Route::get('/{id}/export-pdf', [TemuanController::class, 'exportPDF'])->name('exportPDF');
         Route::put('/{id}/update', [TemuanController::class, 'update'])->name('update');

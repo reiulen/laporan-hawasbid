@@ -10,6 +10,7 @@ use App\Jobs\SendMailTemuan;
 use Illuminate\Http\Request;
 use App\Events\SendEmailTemuan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Console\Scheduling\Event;
 use Yajra\DataTables\Facades\DataTables;
@@ -108,9 +109,9 @@ class TemuanController extends Controller
                                             <a class='btn btn-primary btn-sm' href='".route('temuan.edit', $data->id)."'>
                                                 <i class='fas fa-pencil-alt'></i>
                                             </a>
-                                            <a class='btn btn-danger btn-sm' href='".route('temuan.edit', $data->id)."'>
+                                            <div role='button' class='btn btn-danger btn-sm btn-hapus' data-title='Lembar Temuan' data-id='$data->id'>
                                                 <i class='fas fa-trash-alt'></i>
-                                            </a>
+                                            </div>
                                          </div>";
                                 return $action;
                             })
@@ -173,5 +174,27 @@ class TemuanController extends Controller
         $pdf = PDF::loadview('temuan.exportPdf', compact('data', 'detail'))
                     ->setPaper('A4', 'portrait');
         return $pdf->stream($cetak);
+    }
+
+    public function destroy($id)
+    {
+        $data = Temuan::findOrFail($id);
+        if($data->detail) {
+            foreach($data->detail as $item) {
+                if(isset($item->foto_eviden))
+                    File::delete($item->foto_eviden);
+            }
+        }
+        if($data->tindakLanjut) {
+            if(isset($data->tindakLanjut->foto_eviden))
+                File::delete($data->tindakLanjut->foto_eviden);
+            $data->tindakLanjut->delete();
+        }
+        $data->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data berhasil dihapus'
+        ]);
     }
 }
