@@ -123,6 +123,9 @@ class LembarTemuanController extends Controller
 
             $user = User::where('jabatan', $data->penanggung_jawab_tindak_lanjut)->get();
             if(count($user) > 0 && $data->detail) {
+                // foreach($user as $item) {
+                //     Mail::to($item->email)->send(new TemuanEmail($item, $data, $data->detail, true));
+                // }
                 $job = new SendMailTemuan($user, $data, $data->detail);
                 $this->dispatch($job);
             }

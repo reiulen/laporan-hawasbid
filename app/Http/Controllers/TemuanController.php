@@ -108,6 +108,9 @@ class TemuanController extends Controller
                                             <a class='btn btn-primary btn-sm' href='".route('temuan.edit', $data->id)."'>
                                                 <i class='fas fa-pencil-alt'></i>
                                             </a>
+                                            <a class='btn btn-danger btn-sm' href='".route('temuan.edit', $data->id)."'>
+                                                <i class='fas fa-trash-alt'></i>
+                                            </a>
                                          </div>";
                                 return $action;
                             })
@@ -146,6 +149,9 @@ class TemuanController extends Controller
 
         $user = User::whereIn('id', $request->user_send)->get();
         if(count($user) > 0) {
+            // foreach($user as $item) {
+            //     Mail::to($item->email)->send(new TemuanEmail($item, $data, $data->detail, true));
+            // }
             $job = new SendMailTemuan($user, $data, $data->detail);
             $this->dispatch($job);
         }
