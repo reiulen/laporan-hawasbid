@@ -50,29 +50,21 @@
                                 </label>
                                 @php
                                     $penanggung_jawab = [
-                                        "" => [
-                                            "Hakim"
-                                        ],
-                                        "PANITERA" => [
-                                            'Panmud Permohonan',
-                                            'Panmud Gugatan',
-                                            'Panmud Hukum'
-                                        ],
-                                        "SEKERTARIS" => [
-                                            'Kasubag PTIP',
-                                            'Kasubag Umum & Keuangan',
-                                            'Kasubag Kepegawaian'
-                                        ],
+                                        "Hakim",
+                                        "PANITERA",
+                                        'Panmud Permohonan',
+                                        'Panmud Gugatan',
+                                        'Panmud Hukum',
+                                        "SEKERTARIS" ,
+                                        'Kasubag PTIP',
+                                        'Kasubag Umum & Keuangan',
+                                        'Kasubag Kepegawaian'
                                     ];
                                 @endphp
                                 <select class="form-control select2" name="jabatan">
                                     <option value="">Pilih Pejabat Penanggung Jawab</option>
                                     @foreach ($penanggung_jawab as $key => $pnj)
-                                       <optgroup label="{{ $key }}">
-                                        @foreach ($pnj as $pn)
-                                            <option value="{{ $pn }}" {{ old('jabatan', ($data->jabatan ?? '')) == $pn ? 'selected' : '' }}>{{ $pn }}</option>
-                                        @endforeach
-                                        </optgroup>
+                                        <option value="{{ $pnj }}" {{ old('jabatan', ($data->jabatan ?? '')) == $pnj ? 'selected' : '' }}>{{ $pnj }}</option>
                                     @endforeach
                                 </select>
                             </div>

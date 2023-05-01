@@ -130,11 +130,11 @@
                                 </label>
                                 @php
                                     $triwulan = [
-                                                1 => 'I',
-                                                2 => 'II',
-                                                3 => 'III',
-                                                4 => 'IV',
-                                            ];
+                                        1 => 'I',
+                                        2 => 'II',
+                                        3 => 'III',
+                                        4 => 'IV',
+                                    ];
                                 @endphp
                                 <select class="form-control select2" name="triwulan" required>
                                     <option value="">Pilih Triwulan</option>

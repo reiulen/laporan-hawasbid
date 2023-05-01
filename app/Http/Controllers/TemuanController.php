@@ -171,6 +171,8 @@ class TemuanController extends Controller
 
         $cetak = "Lembar Temuan Hakim Pengawas Bidang Pengadilan Agama Cirebon $data->penanggung_jawab_tindak_lanjut ";
 
+        // return view('temuan.exportPdf', compact('data', 'detail'));
+
         $pdf = PDF::loadview('temuan.exportPdf', compact('data', 'detail'))
                     ->setPaper('A4', 'portrait');
         return $pdf->stream($cetak);
@@ -196,5 +198,37 @@ class TemuanController extends Controller
             'status' => 'success',
             'message' => 'Data berhasil dihapus'
         ]);
+    }
+
+    public function detailPreview(Request $request)
+    {
+        $data = Temuan::select('id', 'status',  'tanggal_tindak_lanjut',  'triwulan')
+                        ->latest()
+                        ->filter($request);
+        if(Auth::user()->role == 2)
+            $data->where('hakim_pengawas_bidang', Auth::user()->id);
+
+        return DataTables::of($data)
+                            ->addindexColumn()
+                            ->addColumn('link', function($data) {
+                                $link = "<a href=".route('temuan.exportPDF', $data->id)." target='_blank'>".route('temuan.exportPDF', $data->id)."</a>";
+                                return $link;
+                            })
+                            ->addColumn('triwulan', function($data) {
+                                return triwulan($data->triwulan);
+                            })->addColumn('tanggal_tindak_lanjut', function($data) {
+                                return date('d F Y', strtotime($data->tanggal_tindak_lanjut));
+                            })->addColumn('foto_eviden', function($data) {
+                                $detail = $data->detail ?? [];
+                                $html = '';
+                                foreach ($detail as $key => $item) {
+                                    if(isset($item->foto_eviden))
+                                        $html .= '<img src="'.asset($item->foto_eviden).'" style="height: 60px; width: 60px; object-fit:cover" /> ';
+                                }
+                                return '<div class="d-flex justify-content-center" style="gap: 20px;">'.$html.'</div>';
+                            })->rawColumns(['link'])
+                           ->smart(true)
+                           ->make(true);
+
     }
 }

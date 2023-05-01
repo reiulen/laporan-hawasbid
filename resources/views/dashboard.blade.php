@@ -67,8 +67,232 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                @php
+                $i = 0;
+                $triwulan = [
+                            1 => 'I',
+                            2 => 'II',
+                            3 => 'III',
+                            4 => 'IV',
+                        ];
+                @endphp
+                @foreach ($triwulan as $tl)
+                <div class="col-md-6">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th colspan="2" class="text-center">Triwulan {{ $tl }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>A. Manajemen Peradilan</td>
+                                <td>
+                                    <a href="#" class="detailPreview" data-type="A. Manajemen Peradilan" data-triwulan='{{ ++$i }}'  data-triwulanM='{{ $tl }}'>
+                                        Lihat semua link preview
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>B. Administrasi Perkara</td>
+                                <td>
+                                    <a href="#" class="detailPreview" data-type="B. Administrasi Perkara" data-triwulan='{{ ++$i }}'  data-triwulanM='{{ $tl }}'>
+                                        Lihat semua link preview
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>C. Administrasi Persidangan</td>
+                                <td>
+                                    <a href="#" class="detailPreview" data-type="C. Administrasi Persidangan" data-triwulan='{{ ++$i }}'  data-triwulanM='{{ $tl }}'>
+                                        Lihat semua link preview
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>D. Pelayanan Publik</td>
+                                <td>
+                                    <a href="#" class="detailPreview" data-type="D. Pelayanan Publik" data-triwulan='{{ ++$i }}'  data-triwulanM='{{ $tl }}'>
+                                        Lihat semua link preview
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>E. Administrasi Umum</td>
+                                <td>
+                                    <a href="#" data-toggle="modal" data-target="#detailPreview"  data-type="E. Administrasi Umum" data-triwulan='{{ ++$i }}'  data-triwulanM='{{ $tl }}'>
+                                        Lihat semua link preview
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                @endforeach
+            </div>
         </div>
         <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+    @push('modals')
+    <div class="modal fade" id="detailPreview" tabindex="-1" aria-labelledby="detailPreviewLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="detailPreviewLabel">Detail Preview <span id="typePn"></span> <span id="triwulanM"></span></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="overflow-auto p-4">
+                <table id="example1" class="table table-bordered table-hover">
+                    <thead>
+                        <tr class="text-center">
+                            <th rowspan="2" width="10px">No</th>
+                            <th rowspan="2" class="text-nowrap">Link Preview</th>
+                            <th class="text-nowrap">Tanggal/Bulan/Tahun <br/> Temuan</th>
+                            <th>Status</th>
+                        </tr>
+                        <tr class="text-center">
+                            <th class="text-nowrap" style="min-width: 180px">
+                                <input type="date" name="tanggal_tindak_lanjut" class="form-control" />
+                            </th>
+                            <th class="text-nowrap" style="min-width: 180px">
+                                <select class="form-control" name="status">
+                                    <option value="">Pilih Status</option>
+                                    <option value="1">Belum ditindaklanjuti</option>
+                                    <option value="2">Sudah ditindaklanjuti</option>
+                                </select>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+    </div>
+    @endpush
+    @include('lib.datatable')
+    @push('script')
+    <script>
+        $('input').on('keyup', function() {
+            setTimeout(function() {
+                table.draw();
+            }, 900);
+        }).on('change', function() {
+            setTimeout(function() {
+                table.draw();
+            }, 900);
+        });
+
+        $('select').on('change', function() {
+            table.draw();
+        });
+
+        let type = '';
+        let triwulan = '';
+        let table = null;
+        $('.detailPreview').on('click', function() {
+            type = $(this).data('type');
+            triwulan = $(this).data('triwulan');
+            let triwulanM = $(this).data('triwulanm');
+            $('#typePn').text(type);
+            $('#triwulanM').text(`Triwulan ${triwulanM}`);
+            if(table) {
+                table.draw();
+            }
+            $('#detailPreview').modal('show');
+        });
+        $('#detailPreview').on('shown.bs.modal', function() {
+            if ( $.fn.dataTable.isDataTable( '#example1' ) ) {
+                table.draw();
+            }else {
+                table = $("#example1").DataTable({
+                    lengthMenu: [
+                        [10, 25, 50, 100, 500, -1],
+                        [10, 25, 50, 100, 500, "All"],
+                    ],
+                    searching: false,
+                    responsive: false,
+                    lengthChange: true,
+                    autoWidth: false,
+                    order: [],
+                    pagingType: "full_numbers",
+                    language: {
+                        search: "_INPUT_",
+                        searchPlaceholder: "Cari...",
+                        processing:
+                            '<div class="spinner-border text-info" role="status">' +
+                            '<span class="sr-only">Loading...</span>' +
+                            "</div>",
+                        paginate: {
+                            Search: '<i class="icon-search"></i>',
+                            first: "<i class='fas fa-angle-double-left'></i>",
+                            previous: "<i class='fas fa-angle-left'></i>",
+                            next: "<i class='fas fa-angle-right'></i>",
+                            last: "<i class='fas fa-angle-double-right'></i>",
+                        },
+                    },
+                    oLanguage: {
+                        sSearch: "",
+                    },
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: `{{ url('') }}/admin/dashboard/previewDetail`,
+                        method: "POST",
+                        data: function (d) {
+                            d.pengawas_bidang = type;
+                            d.triwulan = triwulan;
+                            const input = $('input');
+                            const select = $('select');
+                            input.each(function() {
+                                let name = $(this).attr('name');
+                                let value = $(this).val();
+                                if (value != '')
+                                    d[name] = value;
+                            });
+                            select.each(function() {
+                                let name = $(this).attr('name');
+                                let value = $(this).val();
+                                if (value != '')
+                                    d[name] = value;
+                            });
+                            return d;
+                        },
+                    },
+                    columns: [
+                        {
+                            name: "created_at",
+                            data: "DT_RowIndex",
+                        },
+                        {
+                            name: "link",
+                            data: "link",
+                            orderable: false,
+                        },
+                        {
+                            name: "tanggal_tindak_lanjut",
+                            data: "tanggal_tindak_lanjut",
+                            orderable: false,
+                        },
+                        {
+                            name: "status",
+                            data: function(data) {
+                                return data.status == 1 ? 'Belum ditindaklanjuti' : 'Sudah ditindaklanjuti'
+                            },
+                            orderable: false,
+                        },
+                    ],
+                });
+            }
+        });
+        // $('#detailPreview').on('hidden.bs.modal', function() {
+        //     $('#example1').find('tbody')
+        // });
+    </script>
+    @endpush
 </x-app-layout>

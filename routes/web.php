@@ -45,6 +45,8 @@ Route::middleware([
         return view('dashboard', compact('pengguna','temuan', 'belum_tindak', 'sudah_tindak'));
     })->name('dashboard');
 
+    Route::post('/dashboard/previewDetail', [TemuanController::class, 'detailPreview']);
+
     Route::resource('/user', UserController::class);
     Route::get('/user/list/user', [UserController::class, 'list'])->name('user.list');
     Route::group(['prefix' => 'temuan', 'as' => 'temuan.'], function() {

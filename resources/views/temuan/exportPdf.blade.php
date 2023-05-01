@@ -28,14 +28,16 @@
         </style>
     </head>
     <body>
-        @foreach ($detail as $item)
+        @foreach ($detail as $key => $item)
         <div>
+            @if ($key == 0)
             <div class="text-center font-size-14 bold">
                 <p>HAKIM PENGAWAS BIDANG</p>
                 <p>PENGADILAN AGAMA CIREBON</p>
                 <p><i>SK Ketua Pengadilan Agama Cirebon Nomor W10-A16/{{ $item->nomor_1 }}/PS.00/{{ $item->nomor_2 }}/{{ $item->nomor_3 }}</i></p>
                 <p>Pelaksanaan Tanggal {{ dateMonthIndo($item->tanggal_pelaksanaan_dari) }} S.d {{ dateMonthIndo($item->tanggal_pelaksanaan_sampai) }}</p>
             </div>
+            @endif
             <div class="font-size-14" style="list-style-type: upper-alpha; margin-top: 50px; display: flex; justify-content: center">
                 <div class="bold" style="margin-bottom: 5px">{{ explode('.', $data->pengawas_bidang)[0] ?? '' }}. <span style="padding-left: 5px">{{ explode('.', $data->pengawas_bidang)[1] ?? '' }}</span></div>
                 <div style="padding-left: 30px" class="line-height">
@@ -71,27 +73,27 @@
                             <div style="padding-left: 17px">Tidak ada foto eviden</div>
                         @endif
                     </div>
-                    @if ($data->tindakLanjut)
-                    <div class="bold" style="margin-top: 20px; margin-bottom: 5px">TINDAK LANJUT:</div>
-                    <div style="margin-bottom: 5px">
-                        <div class="bold" style="margin-bottom: 5px">1. Tanggal Tindak Lanjut:</div>
-                        <div style="padding-left: 17px">{{ $data->tindakLanjut ? dateMonthIndo($data->tindakLanjut->tanggal_tindak_lanjut, 'd F Y') : '' }}</div>
-                    </div>
-                    <div style="margin-bottom: 5px">
-                        <div class="bold" style="margin-bottom: 5px">2. Keterangan Tindak Lanjut:</div>
-                        <div style="padding-left: 17px">{{ $data->tindakLanjut->tindak_lanjut ?? ''  }}</div>
-                    </div>
-                    <div style="margin-bottom: 5px">
-                        <div class="bold" style="margin-bottom: 5px">Foto Eviden Tindak Lanjut:</div>
-                       @if (($data->tindakLanjut->foto_eviden ?? null))
-                       <div style="padding-left: 17px">
-                            <img src="{{ public_path($data->tindakLanjut->foto_eviden) }}" style="height: 250px; max-width: 100%" />
+                    @if ($item->tindak_lanjut)
+                        <div class="bold" style="margin-top: 20px; margin-bottom: 5px">TINDAK LANJUT:</div>
+                        <div style="margin-bottom: 5px">
+                            <div class="bold" style="margin-bottom: 5px">1. Tanggal Tindak Lanjut:</div>
+                            <div style="padding-left: 17px">{{ $item->tindak_lanjut->tanggal_tindak_lanjut ? dateMonthIndo($item->tindak_lanjut->tanggal_tindak_lanjut, 'd F Y') : '' }}</div>
                         </div>
-                        <div>{{ $data->tindakLanjut->deskripsi_foto_eviden ?? '' }}</div>
-                        @else
-                        <div style="padding-left: 17px">Tidak ada foto eviden tindak lanjut</div>
-                       @endif
-                    </div>
+                        <div style="margin-bottom: 5px">
+                            <div class="bold" style="margin-bottom: 5px">2. Keterangan Tindak Lanjut:</div>
+                            <div style="padding-left: 17px">{{ $item->tindak_lanjut->tindak_lanjut ?? ''  }}</div>
+                        </div>
+                        <div style="margin-bottom: 5px">
+                            <div class="bold" style="margin-bottom: 5px">Foto Eviden Tindak Lanjut:</div>
+                           @if (($item->tindak_lanjut->foto_eviden ?? null))
+                           <div style="padding-left: 17px">
+                                <img src="{{ public_path($item->tindak_lanjut->foto_eviden) }}" style="height: 250px; max-width: 100%" />
+                            </div>
+                            <div>{{ $item->tindak_lanjut->deskripsi_foto_eviden ?? '' }}</div>
+                            @else
+                            <div style="padding-left: 17px">Tidak ada foto eviden tindak lanjut</div>
+                           @endif
+                        </div>
                     @endif
                 </div>
             </div>

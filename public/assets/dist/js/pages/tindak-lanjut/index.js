@@ -195,7 +195,7 @@ table.on("click", ".btn-hapus", function (e) {
     e.preventDefault();
     const id = $(this).data("id");
     const nama = $(this).data("title");
-    const urlTarget = `${url}/admin/tahun-akademik/${id}`
+    const urlTarget = `${url}/admin/temuan/${id}`
     deleteDataTable(nama, urlTarget, table)
 });
 

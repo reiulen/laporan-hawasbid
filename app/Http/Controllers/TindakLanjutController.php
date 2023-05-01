@@ -57,34 +57,47 @@ class TindakLanjutController extends Controller
         else if(Auth::user()->role == 3)
             $data->where('penanggung_jawab_tindak_lanjut', Auth::user()->jabatan);
         $data = $data->findOrFail($id);
+        $lembar_temuan = $data->detail ?? [];
         $detail = $data->tindakLanjut ?? null;
-        // dd($detail);
-        return view('tindak-lanjut.create-update', compact('data', 'detail'));
+        return view('tindak-lanjut.create-update', compact('data', 'detail', 'lembar_temuan'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            "tanggal_tindak_lanjut" => "required",
-            "tindak_lanjut" => "required",
-            "foto_eviden" => "image|mimes:jpeg,png,jpg,gif,svg|max:4048",
-            'status' => 'required',
+            'id.*' => 'required',
+            "tanggal_tindak_lanjut.*" => "required",
+            "tindak_lanjut.*" => "required",
+            "foto_eviden.*" => "image|mimes:jpeg,png,jpg,gif,svg|max:4048",
+            // 'status.*' => 'required',
         ]);
+
 
         $data = Temuan::findOrFail($id);
+        $tindak_lanjuts = $data->tindakLanjut ?? [];
+        $foto_eviden = $request->file('foto_eviden') ?? [];
+        $tindak_lanjut = [];
+        foreach($tindak_lanjuts as $tl) {
+            $tindak_lanjut[$tl->id] = $tl;
+        }
+        $ids = $request->id ?? [];
+        foreach($ids as $id) {
+            $tindak_lanjut = $tindak_lanjuts[$id] ?? new TindakLanjut();
+            $tindak_lanjut->temuan_id = $data->id;
+            // $tindak_lanjut->status = $request->status[$id] ?? '';
+            $tindak_lanjut->tanggal_tindak_lanjut = date('Y-m-d', strtotime($request->tanggal_tindak_lanjut[$id] ?? ''));
+            $tindak_lanjut->tindak_lanjut = $request->tindak_lanjut[$id] ?? '';
+            if($foto_eviden[$id] ?? null)
+                $tindak_lanjut->foto_eviden = upload_file($foto_eviden[$id], 'tindak-lanjut', 'foto_eviden');
+            $tindak_lanjut->deskripsi_foto_eviden = $request->deskripsi_foto_eviden[$id] ?? '';
+            $tindak_lanjut->temuan_details_id = $id;
+            $tindak_lanjut->save();
+        }
+
         $data->update([
-            'status' => $request->status,
+            'status' => 2,
             // 'tanggal_tindak_lanjut' => date('Y-m-d', strtotime($request->tanggal_tindak_lanjut)),
         ]);
-        $tindak_lanjut = TindakLanjut::find($data->tindakLanjut->id ?? null) ?? new TindakLanjut();
-        $tindak_lanjut->temuan_id = $data->id;
-        $tindak_lanjut->tanggal_tindak_lanjut = date('Y-m-d', strtotime($request->tanggal_tindak_lanjut));
-        $tindak_lanjut->tindak_lanjut = $request->tindak_lanjut;
-        if($request->file('foto_eviden'))
-            $tindak_lanjut->foto_eviden = upload_file($request->file('foto_eviden'), 'tindak-lanjut', 'foto_eviden');
-        $tindak_lanjut->deskripsi_foto_eviden = $request->deskripsi_foto_eviden;
-        $tindak_lanjut->save();
-
         return redirect(route('tindak-lanjut.index'))
                     ->with('success', 'Data berhasil disimpan');
 
