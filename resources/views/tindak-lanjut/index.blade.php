@@ -1,12 +1,12 @@
-<x-app-layout title="Temuan">
+<x-app-layout title="Tindak Lanjut">
     <x-content_header>
         <div class="col-sm-6">
-            <h4 class="text-primary">Temuan</h4>
+            <h4 class="text-primary">Tindak Lanjut</h4>
         </div>
 
         <x-breadcrumb>
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-            <li class="breadcrumb-item item">{{ __('Temuan') }}</li>
+            <li class="breadcrumb-item item">{{ __('Tindak Lanjut') }}</li>
         </x-breadcrumb>
     </x-content_header>
     <!-- Main content -->

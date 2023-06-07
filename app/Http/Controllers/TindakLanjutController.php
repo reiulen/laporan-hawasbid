@@ -119,6 +119,12 @@ class TindakLanjutController extends Controller
                             ->addindexColumn()
                             ->addColumn('action', function($data) {
                                 $buttonKirimEmail = '';
+                                $delete = '';
+                                if(Auth::user()->role == 1) {
+                                    $delete = "  <div role='button' class='btn btn-danger btn-sm btn-hapus' data-title='Tindak Lanjut' data-id='$data->id'>
+                                                    <i class='fas fa-trash-alt'></i>
+                                                </div>";
+                                }
                                 if($data->tindakLanjut)
                                     $buttonKirimEmail = "<div>
                                                             <div class='btn btn-dark btn-sm text-nowrap send-email' role='button' data-id='$data->id'>
@@ -136,6 +142,7 @@ class TindakLanjutController extends Controller
                                                 <i class='fas fa-pencil-alt'></i>
                                                 Tidak Lanjuti
                                             </a>
+                                            $delete
                                          </div>";
                                 return $action;
                             })
@@ -156,4 +163,5 @@ class TindakLanjutController extends Controller
                            ->make(true);
 
     }
+
 }

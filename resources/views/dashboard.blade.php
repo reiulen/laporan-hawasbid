@@ -71,14 +71,51 @@
                 @php
                 $i = 0;
                 $triwulan = [
-                            1 => 'I',
-                            2 => 'II',
-                            3 => 'III',
-                            4 => 'IV',
+                            'I',
+                            'II',
+                            'III',
+                            'IV',
                         ];
                 @endphp
                 @foreach ($triwulan as $tl)
                 <div class="col-md-6">
+                    {{-- <div class="mb-4 d-flex align-items-end" style="gap: 10px;">
+                        @php
+                            $tahun = [
+                                '2021',
+                                '2022',
+                                '2023',
+                                '2024',
+                                '2025',
+                                '2026',
+                                '2027',
+                                '2028',
+                                '2029',
+                            ]
+                        @endphp
+                        <div>
+                            <select class="form-control" name="">
+                                @foreach ($tahun as $t)
+                                    <option value="{{ $t }}">{{ $t }}</option>
+                                @endforeach
+                            </select>
+                            <div class="d-flex align-items-center" style="gap: 5px">
+                                <div>
+                                    <input type="number" class="form-control" value="{{ date('Y') }}" style="max-width: 90px" />
+                                </div>
+                                <button class="btn btn-primary">
+                                    <i class="fas fa-filter"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <label>Tahun</label>
+                            <input type="number" name="tahun-{{ $tl }}" class="form-control tahun_triwulan" value="{{ date('Y') }}" style="max-width: 90px" />
+                        </div>
+                        <a href="" class="btn btn-primary">
+                            Download Rekap Triwulan {{ $tl }}
+                        </a>
+                    </div> --}}
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -178,6 +215,15 @@
     @include('lib.datatable')
     @push('script')
     <script>
+        $('.tahun_triwulan').on('change', function() {
+            let tahun = $(this).val();
+            let name = $(this).attr('name');
+            console.log(tahun,name);
+            // let triwulan = $(this).data('triwulan');
+            // let url = `${url}/admin/${triwulan}/export-pdf/${tahun}`;
+            // url = url + `?tahun=${tahun}&triwulan=${triwulan}`;
+            // $(this).next().attr('href', url);
+        });
         $('input').on('keyup', function() {
             setTimeout(function() {
                 table.draw();

@@ -180,18 +180,21 @@ class TemuanController extends Controller
 
     public function destroy($id)
     {
-        $data = Temuan::findOrFail($id);
+        $data = Temuan::find($id);
         if($data->detail) {
             foreach($data->detail as $item) {
                 if(isset($item->foto_eviden))
                     File::delete($item->foto_eviden);
             }
         }
+
         if($data->tindakLanjut) {
-            if(isset($data->tindakLanjut->foto_eviden))
-                File::delete($data->tindakLanjut->foto_eviden);
-            $data->tindakLanjut->delete();
+            foreach($data->tindakLanjut ?? [] as $item) {
+                if(isset($item->foto_eviden))
+                    File::delete($item->foto_eviden);
+            }
         }
+
         $data->delete();
 
         return response()->json([

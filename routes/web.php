@@ -58,12 +58,14 @@ Route::middleware([
         Route::delete('/{id}', [TemuanController::class, 'destroy'])->name('destory');
         Route::get('/{id}/edit', [TemuanController::class, 'edit'])->name('edit');
         Route::get('/{id}/export-pdf', [TemuanController::class, 'exportPDF'])->name('exportPDF');
+        Route::get('/{triwulan}/export-pdf/{tahun}', [TemuanController::class, 'exportPDFAll'])->name('exportPDFAll');
         Route::put('/{id}/update', [TemuanController::class, 'update'])->name('update');
         Route::get('/{id}/lembar-temuan', [LembarTemuanController::class, 'create'])->name('lembar-temuan.create');
         Route::put('/{id}/lembar-temuan/update', [LembarTemuanController::class, 'updateTemuan'])->name('lembar-temuan.update');
     });
     Route::group(['prefix' => 'tindak-lanjut', 'as' => 'tindak-lanjut.'], function() {
         Route::get('/', [TindakLanjutController::class, 'index'])->name('index');
+        Route::delete('/{id}', [TindakLanjutController::class, 'destroy'])->name('destory');
         Route::get('/{id}/temuan', [TindakLanjutController::class, 'temuan'])->name('temuan');
         Route::put('/{id}/tindak-lanjut', [TindakLanjutController::class, 'update'])->name('update');
         Route::post('/dataTable', [TindakLanjutController::class, 'dataTable'])->name('dataTable');
